@@ -12,7 +12,7 @@
 Clone
 
   ```bash
-  git clone https://github.com/gricardo87/projeto-docker-v1.git
+  git clone https://github.com/fellipedemoraes/puc-unidade-1-docker.git
   ```
   
 Navegue até a pasta correspondente:
