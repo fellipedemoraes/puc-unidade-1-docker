@@ -1,57 +1,60 @@
-version: '3.8'
+version: '3.8' # Define a versão do Docker Compose
 
 services:
+  # Serviço de Frontend
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    restart: always
+      context: ./frontend  # Diretório onde o Dockerfile do frontend está localizado
+      dockerfile: Dockerfile  # Nome do Dockerfile para o frontend
+    restart: always  # Reinicia o container automaticamente em caso de falha
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost
+      - REACT_APP_BACKEND_URL=http://localhost  # URL do backend usada pelo frontend
     depends_on:
-      - guess
+      - guess  # Define a ordem de inicialização, garantindo que o backend "guess" esteja ativo antes do frontend
 
+  # Serviço de Backend (Guess)
   guess:
-    build: .
-    restart: always
+    build: .  # Diretório raiz do projeto onde o Dockerfile do backend está localizado
+    restart: always  # Reinicia o container automaticamente em caso de falha
     environment:
-      - FLASK_APP=run.py
-      - FLASK_DB_TYPE=postgres
-      - FLASK_DB_USER=myuser
-      - FLASK_DB_PASSWORD=mypassword
-      - FLASK_DB_NAME=mydatabase
-      - FLASK_DB_HOST=postgres
-      - FLASK_DB_PORT=5432
+      - FLASK_APP=run.py  # Arquivo principal do aplicativo Flask
+      - FLASK_DB_TYPE=postgres  # Tipo de banco de dados utilizado (PostgreSQL)
+      - FLASK_DB_USER=myuser  # Usuário do banco de dados
+      - FLASK_DB_PASSWORD=mypassword  # Senha do banco de dados
+      - FLASK_DB_NAME=mydatabase  # Nome do banco de dados
+      - FLASK_DB_HOST=postgres  # Host onde o PostgreSQL está rodando (nome do serviço)
+      - FLASK_DB_PORT=5432  # Porta do PostgreSQL
     depends_on:
-      - postgres
+      - postgres  # Define a ordem de inicialização, garantindo que o banco de dados esteja ativo antes do backend
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 20s
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]  # Verifica se o backend está respondendo na rota /health
+      interval: 10s  # Intervalo entre cada verificação
+      timeout: 5s  # Tempo limite para a verificação
+      retries: 3  # Número de tentativas de verificação antes de considerar o serviço como não saudável
+      start_period: 20s  # Tempo de espera antes de iniciar as verificações de saúde
 
+  # Serviço de Banco de Dados (PostgreSQL)
   postgres:
-    image: postgres:latest
-    restart: always
+    image: postgres:latest  # Imagem oficial do PostgreSQL
+    restart: always  # Reinicia o container automaticamente em caso de falha
     environment:
-      POSTGRES_PASSWORD: example
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser  # Usuário do banco de dados
+      POSTGRES_PASSWORD: mypassword  # Senha do banco de dados
+      POSTGRES_DB: mydatabase  # Nome do banco de dados
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data  # Volume para persistir os dados do banco, garantindo que não sejam perdidos após reinicialização
 
+  # Serviço de Balanceador de Carga (NGINX)
   nginx:
-    image: nginx:latest
-    restart: always
+    image: nginx:latest  # Imagem oficial do NGINX
+    restart: always  # Reinicia o container automaticamente em caso de falha
     ports:
-      - "80:80"
+      - "80:80"  # Mapeia a porta 80 do host para a porta 80 do container, permitindo acesso externo
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Mapeia o arquivo de configuração do NGINX para o container
     depends_on:
-      - frontend
+      - frontend  # Garante que o frontend e o backend "guess" estejam ativos antes de iniciar o NGINX
       - guess
 
 volumes:
-  postgres-data:
+  postgres-data:  # Volume para o PostgreSQL, usado para persistir dados do banco de dados
