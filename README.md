@@ -2,9 +2,9 @@
 
 ## Pré-requisitos
 
-- **Docker**: https://docs.docker.com/engine/install/
-- **Docker Compose**: https://docs.docker.com/compose/install/
-- **Git**: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+- 🎮 **Docker**: [Instalação do Docker](https://docs.docker.com/engine/install/)
+- ⚙️ **Docker Compose**: [Instalação do Docker Compose](https://docs.docker.com/compose/install/)
+- 🛠️ **Git**: [Instalação do Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ---
 
@@ -18,7 +18,7 @@ Clone
 Navegue até a pasta correspondente:
 
   ```bash
-  cd projeto-docker-v1
+  cd puc-unidade-1-docker
   ```
 Execute:
 
@@ -227,3 +227,14 @@ Depois, execute:
 docker-compose down
 docker-compose up
 ```
+
+## Referências
+
+- [Documentação do Docker](https://docs.docker.com/engine/install/)
+- [Documentação do Docker Compose](https://docs.docker.com/compose/install/)
+- [Documentação do Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [Docker Hub - Repositório de Imagens](https://hub.docker.com/)
+- [Markdown Guide - Sintaxe Markdown](https://www.markdownguide.org/basic-syntax/)
+- [Documentação do PostgreSQL](https://www.postgresql.org/docs/)
+- [Documentação do NGINX](https://nginx.org/en/docs/)
+- [PUC Minas](https://www.pucminas.br)
